@@ -21,8 +21,8 @@ const getUsers = () => {
 };
 const getHobbies = () => {
   const dataAccessMethod = () => {
-    // fill me in :) should return an array of hobbies without duplicate value.
-    return ['this is a hobby', 'this is another hobby'];
+    const totalList = Object.values(db.hobbiesOfUserByUsername).reduce((acc, cur) => [...acc, ...cur], []);
+    return [...new Set(totalList)];
   };
   return mockDBCall(dataAccessMethod);
 };
@@ -30,10 +30,31 @@ const getHobbies = () => {
 const getListOfAgesOfUsersWith = (hobby) => {
   const dataAccessMethod = () => {
     // fill me in :) should return an arry of age count based on hobby.
-    return [
-      { age: 18, count: 2 },
-      { age: 12, count: 1 },
-    ];
+    const usersWhoHasTheHobby = [];
+    const targetObj = db.hobbiesOfUserByUsername;
+    for (let key in targetObj) {
+      targetObj[key].includes(hobby) && usersWhoHasTheHobby.push(key);
+    }
+
+    const agesArr = [];
+    Object.values(db.usersById).forEach(obj => {
+      if (usersWhoHasTheHobby.includes(obj.username)) {
+        agesArr.push(obj.age);
+      }
+    });
+
+    const countHowManySameAge = {};
+    agesArr.forEach(age => {
+      countHowManySameAge[age] = countHowManySameAge[age] 
+        ? countHowManySameAge[age] + 1 : 1;
+    });
+
+    const res = [];
+    for (let key in countHowManySameAge) {
+      res.push({age: key, count: countHowManySameAge[key]});
+    }
+
+    return res;
   };
   return mockDBCall(dataAccessMethod);
 };

@@ -1,7 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AllUsers from './components/AllUsers';
+import ShowHobby from './components/ShowHobby';
 import './index.scss';
 
-const App = () => <h1>You should see a red color text here</h1>;
+const App = () => {
+
+    return (
+        <div>
+            <AllUsers />
+            <ShowHobby />
+        </div>
+    );
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
