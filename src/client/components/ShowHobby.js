@@ -34,6 +34,7 @@ function ShowHobby(props) {
 
     const [hobbies, setHobbies] = useState(['Hobby']);
     const [ageCounter, setAgeCounter] = useState([]);
+    const [showselect, setShowselect] = useState('');
 
     useEffect(() => {
         Api.getHobbies()
@@ -41,7 +42,9 @@ function ShowHobby(props) {
     });
 
     const handleChange = (event) => {
-        Api.ageCounter(event.target.value)
+        const value = event.target.value;
+        setShowselect(value);
+        Api.ageCounter(value)
             .then(data => setAgeCounter(data));
     };
 
@@ -54,7 +57,7 @@ function ShowHobby(props) {
                 <Select
                     labelId="hobby-selecter"
                     id="demo-simple-select-filled"
-                    value={''}
+                    value={showselect}
                     onChange={handleChange}
                 >
                     <MenuItem value="">
